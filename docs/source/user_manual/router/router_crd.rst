@@ -124,31 +124,31 @@ One example is shown below:
 .. code-block:: yaml
 
     apiVersion: production-stack.vllm.ai/v1alpha1
-        kind: StaticRoute
-        metadata:
-        name: staticroute-sample
-        spec:
-        # Service discovery method
-        serviceDiscovery: static
+    kind: StaticRoute
+    metadata:
+      name: staticroute-sample
+    spec:
+      # Service discovery method
+      serviceDiscovery: static
 
-        # Routing logic
-        routingLogic: roundrobin
+      # Routing logic
+      routingLogic: roundrobin
 
-        # Comma-separated list of backend URLs
-        staticBackends: "http://localhost:9001,http://localhost:9002,http://localhost:9003"
+      # Comma-separated list of backend URLs
+      staticBackends: "http://localhost:9001,http://localhost:9002,http://localhost:9003"
 
-        # Comma-separated list of model names
-        staticModels: "facebook/opt-125m,meta-llama/Llama-3.1-8B-Instruct,facebook/opt-125m"
+      # Comma-separated list of model names
+      staticModels: "facebook/opt-125m,meta-llama/Llama-3.1-8B-Instruct,facebook/opt-125m"
 
-        # Name of the vllm_router to configure
-        routerRef:
-            kind: Service
-            apiVersion: v1
-            name: vllm-router
-            namespace: default
+      # Name of the vllm_router to configure
+      routerRef:
+        kind: Service
+        apiVersion: v1
+        name: vllm-router
+        namespace: default
 
-        # Optional: Name of the ConfigMap to create
-        configMapName: vllm-router-config
+      # Optional: Name of the ConfigMap to create
+      configMapName: vllm-router-config
 
 
 How it works
@@ -159,13 +159,13 @@ How it works
 * When a StaticRoute is created or updated, the controller creates or updates a ConfigMap with the dynamic configuration.
 * The ConfigMap contains a ``dynamic_config.json`` file with the following structure:
 
-.. code-block:: yaml
+.. code-block:: JSON
 
     {
-    "service_discovery": "static",
-    "routing_logic": "roundrobin",
-    "static_backends": "http://localhost:9001,http://localhost:9002,http://localhost:9003",
-    "static_models": "facebook/opt-125m,meta-llama/Llama-3.1-8B-Instruct,facebook/opt-125m"
+        "service_discovery": "static",
+        "routing_logic": "roundrobin",
+        "static_backends": "http://localhost:9001,http://localhost:9002,http://localhost:9003",
+        "static_models": "facebook/opt-125m,meta-llama/Llama-3.1-8B-Instruct,facebook/opt-125m"
     }
 
 
